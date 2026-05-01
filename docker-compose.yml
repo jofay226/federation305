@@ -1,0 +1,43 @@
+# version: '3.9'
+
+services:
+  client:
+    build: ./client
+    environment:
+      CHOKIDAR_USEPOLLING: true
+    depends_on:
+      - server
+    ports:
+      - "3000:3000"          
+    volumes:
+      - ./client:/client
+      - /client/node_modules
+  server:
+    build: ./server
+    volumes:
+      - ./server:/server
+      - /server/node_modules
+    environment:
+      CHOKIDAR_USEPOLLING: true
+      PORT: 4000
+      DATABASE_URL: ${DATABASE_URL}
+    depends_on:
+      - db
+    ports:
+      - "4000:4000"
+
+  
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: qwerty123
+      POSTGRES_DB: perfume
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data    
+
+
+volumes:
+  postgres_data:
