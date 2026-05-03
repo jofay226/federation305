@@ -81,7 +81,7 @@ services:
       POSTGRES_PASSWORD: qwerty123
       POSTGRES_DB: post
     ports:
-      - "5434:5433"
+      - "5434:5432"
     volumes:
       - postgres_post_data:/var/lib/postgresql/data 
 

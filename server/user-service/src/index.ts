@@ -11,24 +11,27 @@ const typeDefs = gql`
     )
 
   type Query {
-    me: User
+    Users: [User!]!
   }
 
   type User @key(fields: "id") {
     id: ID!
-    username: String
+    name: String!
+    email: String!
   }
 `;
 
 const resolvers = {
   Query: {
-    me() {
-      return { id: '1', username: '@ava' };
+    Users : () => {
+      return [{ id: '1', name: '@ava', email: "ava@gmail.com" }];
     },
   },
   User: {
     __resolveReference : (ref: any) => {
         console.log(ref);
+        
+        return { id: '1', name: '@ava', email: "ava@gmail.com" }
     },
   },
 };

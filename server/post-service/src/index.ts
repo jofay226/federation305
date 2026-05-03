@@ -11,24 +11,37 @@ const typeDefs = gql`
     )
 
   type Query {
-    me: User
+    Posts: [Post!]!
+  }
+
+  type Post {
+    id: ID!
+    title: String!
+    description: String!
+    authorId: ID!
+    author: User!
   }
 
   type User @key(fields: "id") {
     id: ID!
-    username: String
   }
+
+  
+
 `;
 
 const resolvers = {
   Query: {
-    me() {
-      return { id: '1', username: '@ava' };
+    Posts: () =>  {
+      return [{ id: '1', title: '@ava', description: 'fdkjg', authorId:"1"}];
     },
   },
-  User: {
-    __resolveReference : (ref: any) => {
+  Post: {
+   author : (ref) => {
+    console.log('post service ref ');
+    
         console.log(ref);
+        return { __typename: "User" ,id:ref.authorId}
     },
   },
 };
