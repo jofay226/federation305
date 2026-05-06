@@ -2,6 +2,7 @@ import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 import {gql} from 'graphql-tag';
 import { buildSubgraphSchema } from '@apollo/subgraph';
+import prisma from './prisma.ts';
 
 const typeDefs = gql`
   extend schema
@@ -32,8 +33,9 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
-    Posts: () =>  {
-      return [{ id: '1', title: '@ava', description: 'fdkjg', authorId:"1"}];
+    Posts: async () =>  {
+        const posts = await prisma.post.findMany({})
+        return posts
     },
   },
   Post: {
