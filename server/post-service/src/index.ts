@@ -40,9 +40,6 @@ const resolvers = {
   },
   Post: {
    author : (ref) => {
-      console.log('post service ref ');
-  
-      console.log(ref);
       return { __typename: "User" , id:ref.authorId}
     },
   },

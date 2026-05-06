@@ -30,11 +30,11 @@ const resolvers = {
     },
   },
   User: {
-    __resolveReference : (ref: any) => {
-        console.log('resolve reference');
-        console.log(ref);
-        
-        return { id: '1', name: '@ava', email: "ava@gmail.com" }
+    __resolveReference :  async (ref: any) => {    
+        const user = await prisma.user.findUnique({
+          where: {id: ref.id}
+        })
+        return user
     },
   },
 };
@@ -48,3 +48,4 @@ const { url } = await startStandaloneServer(server, {
 });
 
 console.log(`🚀  Server ready at ${url}`);
+
